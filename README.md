@@ -1,5 +1,7 @@
 # datascience
 
+## A Pythonista iOS app edition (no pandas or scipy)
+
 A Berkeley library for introductory data science.
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dsten/datascience?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
