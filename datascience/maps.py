@@ -3,9 +3,9 @@
 __all__ = ['Map', 'Marker', 'Circle', 'Region']
 
 
-import IPython.display
-import folium
-import pandas
+#import IPython.display
+#import folium
+#import pandas
 import numpy as np
 
 import abc

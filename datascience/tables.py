@@ -16,13 +16,18 @@ import numpy as np
 import matplotlib
 matplotlib.use('agg', warn=False)
 import matplotlib.pyplot as plt
-import pandas
-import IPython
+#import pandas
+#import IPython
 
-import datascience.formats as _formats
-import datascience.util as _util
-from datascience.util import make_array
-import datascience.predicates as _predicates
+#import datascience.formats as _formats
+#import datascience.util as _util
+#from datascience.util import make_array
+#import datascience.predicates as _predicates
+
+from . import formats as _formats
+from . import util2 as _util
+from .util2 import make_array
+from . import predicates as _predicates
 
 class Table(collections.abc.MutableMapping):
     """A sequence of string-labeled columns."""
