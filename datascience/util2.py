@@ -1,6 +1,14 @@
 import numpy as np
 import math
 
+
+__all__ = [
+    'make_array', 
+    'percentile', 
+    'proportions_from_distribution', 
+]
+
+
 def make_array(*elements):
     """Returns an array containing all the arguments passed to this function.
     A simple way to make an array with a few elements.
@@ -45,3 +53,41 @@ def percentile(p, arr=None):
     assert 0 < p <= 100, 'Percentile requires a percent'
     i = (p/100) * len(arr)
     return sorted(arr)[math.ceil(i) - 1]
+
+
+
+def proportions_from_distribution(table, llabel, sample_size,
+                                  column_name='Random Sample'):
+    """
+    Adds a column named ``column_name`` containing the proportions of a random
+    draw using the distribution in ``label``.
+
+    This method uses ``np.random.multinomial`` to draw ``sample_size`` samples
+    from the distribution in ``table.column(label)``, then divides by
+    ``sample_size`` to create the resulting column of proportions.
+
+    Returns a new ``Table`` and does not modify ``table``.
+
+    Args:
+        ``table``: An instance of ``Table``.
+
+        ``label``: Label of column in ``table``. This column must contain a
+            distribution (the values must sum to 1).
+
+        ``sample_size``: The size of the sample to draw from the distribution.
+
+        ``column_name``: The name of the new column that contains the sampled
+            proportions. Defaults to ``'Random Sample'``.
+
+    Returns:
+        A copy of ``table`` with a column ``column_name`` containing the
+        sampled proportions. The proportions will sum to 1.
+
+    Throws:
+        ``ValueError``: If the ``label`` is not in the table, or if
+            ``table.column(label)`` does not sum to 1.
+    """
+    proportions = (np.random.multinomial(sample_size, table.column(label)) /
+                   sample_size)
+    return table.with_column('Random Sample', proportions)
+
