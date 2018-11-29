@@ -56,7 +56,24 @@ def percentile(p, arr=None):
 
 
 
-def proportions_from_distribution(table, llabel, sample_size,
+def sample_proportions(sample_size, probabilities):
+    """Return the proportion of random draws for each outcome in a distribution.
+
+    This function is similar to np.random.multinomial, but returns proportions
+    instead of counts.
+
+    Args:
+        ``sample_size``: The size of the sample to draw from the distribution.
+
+        ``probabilities``: An array of probabilities that forms a distribution.
+
+    Returns:
+        An array with the same length as ``probability`` that sums to 1.
+    """
+    return np.random.multinomial(sample_size, probabilities) / sample_size
+
+
+def proportions_from_distribution(table, label, sample_size,
                                   column_name='Random Sample'):
     """
     Adds a column named ``column_name`` containing the proportions of a random
@@ -65,8 +82,6 @@ def proportions_from_distribution(table, llabel, sample_size,
     This method uses ``np.random.multinomial`` to draw ``sample_size`` samples
     from the distribution in ``table.column(label)``, then divides by
     ``sample_size`` to create the resulting column of proportions.
-
-    Returns a new ``Table`` and does not modify ``table``.
 
     Args:
         ``table``: An instance of ``Table``.
@@ -87,7 +102,5 @@ def proportions_from_distribution(table, llabel, sample_size,
         ``ValueError``: If the ``label`` is not in the table, or if
             ``table.column(label)`` does not sum to 1.
     """
-    proportions = (np.random.multinomial(sample_size, table.column(label)) /
-                   sample_size)
+    proportions = sample_proportions(sample_size, table.column(label))
     return table.with_column('Random Sample', proportions)
-
